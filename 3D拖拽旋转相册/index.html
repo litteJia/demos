@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>3D拖拽旋转相册</title>
+	<style>
+		*{
+			margin :0;
+			padding:0;
+		}
+		body{
+			background-color:#222;
+			perspective: 1000px;/*景深，不明白位置放何处*/
+		}
+		#wrap{
+			width: 120px;
+			height:180px;
+			margin: auto;
+			position: relative;
+			transform-style: preserve-3d;
+
+		}
+		#wrap img{
+			position: absolute;
+			width: 133px;
+			height: 200px;
+			top:0;
+			left:0;
+			box-shadow:0 0 5px #000;
+			-webkit-box-reflect:below 5px 
+			-webkit-linear-gradient(top, rgba(0, 0, 0, 0) 40%,rgba(0, 0, 0, 0.5) 100%);/*第一个值是方向，top表示从投到尾（倒影的头部随真正图片的头部），后面的参数表示颜色和位置，也有这样写的：from(#ccc), to(#000);再或者：-webkit-linear-gradient(top,#ccc,#000);*/
+			border-radius: 5px;
+			transform: rotateY(0deg) translateZ(0px);
+			transition: 1s 1s;/*动画执行的时间 动画延迟的时间*/
+		}
+
+		#wrap p{
+			position: absolute;
+			left: 50%;
+			margin: -600px;
+			top:90%;
+			margin-top: -600px;
+			width: 1200px;
+			height:1200px;
+			border-radius: 50%;
+			background: -webkit-radial-gradient(center center,600px 600px,rgba(122,122,122,0.2) rgba(0,0,0,0));
+			transform: rotateX(90deg);
+		}
+	</style>
+</head>
+<body>
+	<div id="wrap">
+		<img src="images/1.jpg" alt="">
+		<img src="images/2.jpg" alt="">
+		<img src="images/3.jpg" alt="">
+		<img src="images/4.jpg" alt="">
+		<img src="images/5.jpg" alt="">
+		<img src="images/6.jpg" alt="">
+		<img src="images/7.jpg" alt="">
+		<img src="images/8.jpg" alt="">
+		<img src="images/9.jpg" alt="">
+		<img src="images/10.jpg" alt="">
+		<img src="images/11.jpg" alt="">
+		<p></p>
+	</div>
+	<script type="text/javascript">
+		var oWarp = document.getElementById("wrap");
+		var aImg = oWarp.getElementsByTagName("img");
+
+		//让盒子子使用垂直居中
+		function mTop(){
+			//获取浏览器窗口可视区域的高度
+			var H = document.documentElement.clientHeight;
+			oWarp.style.marginTop = H/2 - 180 + 'px';//本图和倒影一共360px
+		}
+		mTop();
+		//随着浏览器窗口的变化而变化
+		window.onresize = mTop;
+
+		//图片初始动画
+		var len = aImg.length;
+		var Deg = 360/len;
+		for( var i = 0; i < len; i++){
+			aImg[i].style.transform = "rotateY("+ i*Deg+"deg) translateZ(350px)";
+			aImg[i].style.transition = "1s "+ (len-1-i)*0.1 +"s";
+		}
+		//鼠标事件（按下 移动 抬起） 拖拽旋转
+		var lastX,lastY,nowX,nowY,minX,minY,roX=0,roY=0,timer;
+		document.onmousedown = function(e){
+			clearInterval(timer);
+			var e = e||window.event;
+			//获取鼠标按下去的坐标位置
+			lastX = e.clientX;
+			lastY = e.clientY;
+			this.onmousemove = function(e){
+				var e = e||window.event;
+				//移动过程中鼠标的坐标位置
+				nowX = e.clientX;
+				nowY = e.clientY;
+				//计算出鼠标坐标的差值
+				minX = nowX - lastX;
+				minY = nowY - lastY;
+				//计算容器旋转的角度
+				roX += minX*0.2;
+				roY -= minY*0.1;
+				//让整个图片容器跟随鼠标动
+				oWarp.style.transform = "rotateX("+ roY +"deg) rotateY("+ roX +"deg)";
+				lastX = nowX;
+				lastY = nowY;
+			};
+			this.onmouseup = function(){
+				this.onmousemove = null;
+				this.onmouseup = null;
+				timer = setInterval(function(){
+					minY *=0.95;//让值逐渐减少
+					minX *=0.95;
+					roX += minX*0.2;
+					roY -= minY*0.1;
+					//让整个图片容器跟随鼠标动
+					oWarp.style.transform = "rotateX("+ roY +"deg) rotateY("+ roX +"deg)";
+					//当minX达到足够小的值时，清除定时器
+					if(Math.abs(minX) < 0.1 && Math.abs(minY) < 0.1){
+						clearInterval(timer);
+					}
+					},1000/60);//js的帧动画   定时器开多了消耗性能	，当切换到其他窗口时，浏览器对该窗口中的setInterval效果延迟了
+			};
+			return false;
+		};
+	</script>
+</body>
+</html>
