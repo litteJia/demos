@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+
+		body{
+			background-color: #000;
+			overflow: hidden;
+		}
+		
+		#box{
+			height:250px;
+			margin: 150px auto;
+			position: relative;
+			transform-style: preserve-3d;/*3d环境*/
+			perspective: 800px;/*镜深：800-1000最佳*/
+		}
+ 		
+ 		#box img{
+			height:250px;
+			width:300px;
+			position: absolute;
+			-webkit-box-reflect:below 0 
+			-webkit-linear-gradient(top,rgba(0,0,0,0.1),rgba(0,0,0,0.5));/*方向 距离 透明(线性透明)*/
+			transition:0.8s;
+ 		}
+
+ 		.front{
+ 			transform: rotateY(45deg) translateZ(-100px);
+ 		}
+
+ 		.back{
+ 			transform: rotateY(-45deg) translateZ(-100px);
+ 		}
+
+ 		.mid{
+ 			transform:translateZ(100px);
+ 		}
+
+	</style>
+</head>
+<body>
+	<div id="box">
+		<img src="images/1.jpg" alt="">
+		<img src="images/2.jpg" alt="">
+		<img src="images/3.jpg" alt="">
+		<img src="images/4.jpg" alt="">
+		<img src="images/5.jpg" alt="">
+		<img src="images/6.jpg" alt="">
+		<img src="images/7.jpg" alt="">
+		<img src="images/8.jpg" alt="">
+		<img src="images/9.jpg" alt="">
+		<img src="images/10.jpg" alt="">
+		<img src="images/11.jpg" alt="">
+	</div>
+	<script>
+		var $img = $("#box img");
+		var imgLen = $img.length;
+		var minIndex = Math.floor(imgLen/2);
+		var _left = [];
+		for(var i = 0;i < imgLen; i++){
+			if(i < minIndex){
+				$img.eq(i).addClass("front");
+			}else if(i > minIndex){
+				$img.eq(i).addClass("back");
+			}else{
+				$img.eq(minIndex).addClass("mid");
+			}
+		}
+
+		middle();
+		//定位封装
+		function middle(){
+			var w = $(window).width();
+			var mIndex = $(".mid").index();
+			$(".mid").css("left",w/2-150 + 'px');
+			for(var i = 0; i < imgLen; i++){
+				$img.eq(i).css("left", w/2-150-100*(mIndex-i)+"px");
+				_left[i] = parseInt($img.eq(i).css("left"));//强制转化为整形 数字
+			}
+			// console.log(_left);
+		}
+
+		$(window).resize(function(){
+			middle();
+		});
+
+		$img.click(function(){
+			var nowIndex = $(this).index();
+			//交换left定位值
+			for(var i = 0; i < imgLen; i++){
+				_left[i] -= 100*(nowIndex - minIndex);
+				$img.eq(i).css("left",_left[i]);
+ 			}
+ 			//交换类名
+ 			for(var i = 0; i < imgLen; i++){
+ 				if(i < nowIndex){
+ 					$img.eq(i).removeClass().addClass('front');
+ 				}else if(i > nowIndex){
+ 					$img.eq(i).removeClass().addClass('back');
+ 				}
+ 			}
+ 			minIndex = nowIndex;
+ 			$(this).removeClass().addClass('mid');
+		});
+		
+	</script>
+</body>
+</html>
