@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>淘宝图片放大镜特效</title>
+	<style>
+	/*标签结构 < 标签 < class < id*/
+		*{
+			margin: 0;
+			padding: 0;
+		}
+
+		ul li{
+			list-style: none;
+		}
+		
+		ul{
+			overflow: hidden;
+		}
+
+		#pard{
+			width: 400px;
+			height: 480px;
+			border:1px solid #ddd;
+			margin: 120px auto 0;
+			position: relative;
+		}
+		
+		/*更精准，权重比例更大*/
+		#pard .s-pic{
+			height: 400px;
+			background-color: blue;
+			position: relative;
+		}
+		
+		#pard .s-pic img{
+			width:400px;
+			height:400px;
+		}
+
+		.move{
+			width: 150px;
+			height:150px;
+			background:url(images/move.png);
+			position: absolute;
+			top:0;
+			left:0;
+			cursor:move;
+			display: none;
+		}
+
+		#pard .pic-list{
+			height: 50px;
+			margin-top: 20px;
+		}
+
+		#pard .pic-list ul li{
+			width: 50px;
+			height:50px;
+			float: left;
+			margin: 0 6px;
+			cursor:pointer;
+		}
+		
+		.active{
+			border:1px solid red;
+		}
+
+		#pard .b-pic{
+			width: 400px;
+			height: 400px;
+			position: absolute;
+			top:0;
+			left: 420px;
+			overflow: hidden;
+			display: none;
+		}
+
+		#pard .b-pic img{
+			position: absolute;
+			top:0;
+			left:0;
+
+		}
+
+	</style>
+</head>
+<body>
+	<div id="pard">
+		<div class="s-pic">
+			<img src="images/big1.jpg" alt="存放关键字">
+			<div class="move"></div>
+		</div>
+		<div class="pic-list">
+			<ul>
+				<li class="active" datasrc="images/big1.jpg"><img src="images/1.jpg" alt=""/></li>
+				<li datasrc="images/big2.jpg"><img src="images/2.jpg" alt=""/></li>
+				<li datasrc="images/big3.jpg"><img src="images/3.jpg" alt=""/></li>
+				<li datasrc="images/big4.jpg"><img src="images/4.jpg" alt=""/></li>
+				<li datasrc="images/big5.jpg"><img src="images/5.jpg" alt=""/></li>
+				<li datasrc="images/big6.jpg"><img src="images/6.jpg" alt=""/></li>
+			</ul>
+		</div>
+		<div class="b-pic">
+			<img src="images/big1.jpg" alt="" width="800" height="800" />
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript">
+var s_Pic = $('#pard .s-pic');
+var b_Pic = $('#pard .b-pic');
+var s_move = $('#pard .s-pic .move');
+var s_Img = $("#pard .s-pic img");
+var b_Img = $("#pard .b-pic img");
+//hover()鼠标移入或者移出事件
+	$("#pard .pic-list ul li").hover(function(){
+		$(this).addClass('active').siblings().removeClass('active');		
+		// var i = $(this).index() + 1;
+		// sPicImg.attr('src', 'images/big'+ i +'.jpg');
+
+		//或者使用html5中的自定义属性
+		var img = $(this).attr('datasrc');
+		s_Img.attr('src', img);
+		b_Img.attr('src',img);
+	});
+
+	s_Pic.hover(function(){
+		s_move.show();
+		b_Pic.show();
+		s_Pic.mouseover(function(event) {
+			//获取鼠标坐标
+			var x = event.clientX;//鼠标到浏览器左边的距离
+			var y = event.clientY;
+			var l = x - s_Pic.offset().left;//获取偏移量
+			var t = y - s_Pic.offset().top;
+			var move_w = s_move.width();
+			var move_h = s_move.height();
+			var newleft = l-move_w/2;
+			var newtop = t-move_h/2;
+			var max_w = s_Pic.width() - move_w;
+			var max_h = s_Pic.height() - move_h;
+			var b_max_w =b_Img.width() - b_Pic.width();
+			var b_max_h =b_Img.height() - b_Pic.height();
+			var bl_w = b_max_w/max_w;
+			var bl_h = b_max_h/max_h;
+
+			if(newleft < 0){
+				newleft =  0;
+			}else if(newleft > max_w){
+				newleft = max_w;
+			}
+
+			if(newtop < 0 ){
+				newtop = 0;
+			}else if( newtop > max_h){
+				newtop = max_h;
+			}
+			s_move.css({left:newleft,top:newtop});
+			b_Img.css({left:-newleft*bl_w,top:-newtop*bl_h});
+		});
+		
+	},function(){
+		s_move.hide();
+		b_Pic.hide();
+	});
+</script>
+</html>
