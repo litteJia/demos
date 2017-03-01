@@ -1,0 +1,165 @@
+li{
+	list-style: none;
+}
+.carousel{
+	height:140px;
+}
+
+.logo{
+	width: 180px;
+	height:57px;
+	float: left;
+	margin-right: 10px
+}
+
+.header_detail{
+	float: left;
+}
+
+.text-orange{
+	color: #e18524;
+}
+
+.eLife{
+	border:1px solid #5d5d5d;
+	margin-top: 8px;
+	overflow: hidden;
+}
+
+.text-white{
+	color:#fff;
+}
+
+.eLife_icons{
+	margin-right: 3px;
+	margin-top: 1px;
+	float: left;
+}
+.icons01{
+	margin-left: 8px;
+}
+.title{
+	display: inline-block;
+	height: 32px;
+	line-height: 32px;
+	float: left;
+}
+
+.admin{
+	float: right;
+	margin-top: 55px;
+	color: #fff;
+}
+
+.r5{
+	margin-right: 5px;
+}
+
+.main{
+	border:1px solid #eee;
+	background-color: #fff;
+	min-height: 505px;
+	max-width: 1149px;
+	padding:0 50px;
+	position: relative;
+	margin: 0 auto;
+	box-sizing:border-box;
+}
+
+.carTitle{
+	width:160px;
+	height:35px;
+	line-height: 35px;
+	color: #fff;
+	font-size: 14px;
+	padding-left:50px;
+	background: url("imgs/car-logo.jpg") no-repeat 0 0 #43a3df;
+	position:absolute;
+	top:-16px;
+	left:20px;
+}
+
+#add{
+	width: 100px;
+	height:32px;
+	display: block;
+	background-color: #43a3df;
+	color:#fff;
+	border:none;
+	float: right;
+	margin-top: 50px;
+	cursor:pointer;
+}
+.carList{
+	margin-top: 120px;
+	overflow: hidden;
+	padding:0;
+}
+.carList li{
+	float: left;
+	margin-left:33px; 
+	margin-right: 33px;
+	margin-bottom: 20px;
+}
+.carList li:nth-child(4n+1){
+	margin-left: 0;
+}
+.carList li:nth-child(2n+1){
+	    font-size: 0;
+}
+.carList li:nth-child(4n){
+	margin-right: 0;
+}
+.carDetail{	
+	width:212px;
+	height: 212px;
+	background-color: #e7e7e7;
+	padding-top: 30px;
+	padding-right: 20px;
+	padding-left: 20px;
+	color:#929292;
+	font-size: 14px;
+	box-sizing:border-box;
+}
+.carDetail_line{
+	line-height: 24px;
+}
+.carDetail_hover{
+	display: none;
+	height: 40px;
+	line-height: 40px;
+	background-color: #b3b3b3;
+	color:#fff;
+	text-align: center;
+	font-size: 14px;
+	margin-top: -40px;
+
+}
+
+.carDetail:hover + .carDetail_hover{
+	display: block;
+}
+
+.carDetail_hover:hover{
+	display: block;
+}
+
+.imgLi{
+	position: relative;
+}
+
+.del,.edit{
+	display: none;
+}
+
+.del{
+	position: absolute;
+	top:10px;
+	right:53px;
+}
+
+.edit{
+	position: absolute;
+	top:10px;
+	right:10px;
+}

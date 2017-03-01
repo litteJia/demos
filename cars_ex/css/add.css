@@ -1,0 +1,48 @@
+.content{
+	padding:50px 70px;
+}
+
+.line{
+	height:37px;
+	line-height: 37px;
+	margin-bottom: 20px;
+}
+
+.lay_btn{
+	padding:10px 60px;
+	background-color: #43a3df;
+	color: #fff;
+	border:none;
+	cursor: pointer;
+}
+
+.lay_ipt{
+	outline:1px solid #43a3df;
+	width: 275px;
+	height:35px;
+	border:1px solid #eee;
+	padding: 0;
+	padding-left: 10px;
+}
+
+label{
+	width: 70px;
+	display: inline-block;
+}
+
+.line_btn{
+	overflow: hidden;
+	margin-top: 40px;
+}
+
+.lbtn{
+	float: left;
+}
+
+.rbtn{
+	float: right;
+}
+
+.gbtn{
+	background-color: #979797;
+}

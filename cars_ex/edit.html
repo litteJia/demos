@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="css/add.css">
+	<script src="Jquery/jquery-1.9.1.min.js"></script>
+	<script src="plugins/layer/layer.js"></script>
+	<title>编辑家庭汽车</title>
+
+	
+</head>
+<body>
+<div class='content'>
+	<div class="line">
+		<label for="host">车主：</label>
+		<input type="text" name="host" class="lay_ipt" id="host">
+	</div>
+	<div class="line">
+		<label for="c_number">车牌号：</label>
+		<input type="text" name="c_number" class="lay_ipt" id="c_number">
+	</div>
+	<div class="line">
+		<label for="description">描述：</label>
+		<input type="text" name="description" class="lay_ipt" id="description">
+	</div>
+	<div class="line_btn">
+		<button class="lay_btn lbtn " onclick="confirm()">确认</button>
+		<button class="lay_btn rbtn gbtn" onclick="cancel()">取消</button>
+	</div>
+</div>
+<script type="text/javascript">
+ //获取url中的参数
+ function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+            if (r != null) return unescape(r[2]); return null; //返回参数值
+        }
+
+        var carsHostText = getUrlParam('carsHostText');
+        var carsNumText = getUrlParam('carsNumText');
+        var carsDesText = getUrlParam('carsDesText');
+
+        $("#host").val(carsHostText) ;
+        $("#c_number").val(carsNumText);
+        $("#description").val(carsDesText);
+
+        function confirm(){
+        var host = $("#host").val() ;
+        var c_number = $("#c_number").val();
+        var description = $("#description").val();
+
+        	var index = parent.layer.getFrameIndex(window.name);
+        	parent.layer.open.callback.LoadTable(host, c_number, description);
+        parent.layer.close(index);//关闭弹出的子页面窗口  
+    }
+
+    function cancel(){
+    	var index = parent.layer.getFrameIndex(window.name);
+    	parent.layer.close(index);
+    }
+</script>
+</body>
+</html>
